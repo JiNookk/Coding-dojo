@@ -2,16 +2,9 @@ class Solution {
     public long solution(int a, int b) {
         long answer = 0;
 
-        int min = Math.min(a,b);
-        int max = Math.max(a,b);
+        int numberElement = Math.abs(a -b ) + 1;
 
-        int forLength = max-min;
-
-        for (int i = 0; i <= forLength; i += 1){
-            answer += min;
-
-            min += 1;
-        }
+        answer = numberElement*(a + b)/2;
 
         return answer;
     }
