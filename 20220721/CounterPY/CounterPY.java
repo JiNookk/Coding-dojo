@@ -5,26 +5,24 @@ class Solution {
         int countP = 0;
         int countY = 0;
 
-        s.toLowerCase();
+        for (int i = 0; i < s.length(); i += 1) {
+            boolean p = s.substring(i, i + 1).equalsIgnoreCase("p");
+            boolean y = s.substring(i, i + 1).equalsIgnoreCase("y");
 
-        for (int i = 0; i< s.length(); i +=1){
-            boolean p = s.substring(i, i+1).equals("p");
-            boolean y = s.substring(i, i+1).equals("y");
-
-            if(p){
-                countP +=1;
+            if (p) {
+                countP += 1;
             }
 
-            if(y){
-                countY +=1;
+            if (y) {
+                countY += 1;
             }
         }
 
-        if(countP == countY){
+        if (countP == countY) {
             answer = true;
         }
 
-        if(countP != countY){
+        if (countP != countY) {
             answer = false;
         }
         // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
