@@ -5,21 +5,21 @@ class Solution {
         int countP = 0;
         int countY = 0;
 
-        for (int i = 0; i< s.length(); i+=1){
-            boolean p = s.substring(i,i+1).equals("p");
-            boolean bigP = s.substring(i,i+1).equals("P");
+        s.toLowerCase();
 
-            boolean y = s.substring(i,i+1).equals("y");
-            boolean bigY = s.substring(i,i+1).equals("Y");
+        for (int i = 0; i< s.length(); i +=1){
+            boolean p = s.substring(i, i+1).equals("p");
+            boolean y = s.substring(i, i+1).equals("y");
 
-            if(p || bigP) {
-                countP += 1;
+            if(p){
+                countP +=1;
             }
 
-            if(y || bigY){
+            if(y){
                 countY +=1;
             }
         }
+
         if(countP == countY){
             answer = true;
         }
