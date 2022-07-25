@@ -12,12 +12,10 @@ class Solution {
         int answer = 0;
 
         for (int num2 : numbers) {
-            if (num2 > 0 && num2 < 10)
-                sum -= num2;
+            sum -= num2;
         }
 
         answer = sum;
-
         return answer;
     }
 }
