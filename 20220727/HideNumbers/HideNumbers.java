@@ -5,12 +5,10 @@ class Solution {
         char[] numbers = phone_number.toCharArray();
 
         for(int i = 0; i < numbers.length-4; i += 1){
-            numbers[i] = '*';
+            answer += "*";
         }
 
-        for (char number:numbers){
-            answer +=number;
-        }
+        answer += phone_number.substring(numbers.length-4);
 
         return answer;
     }
