@@ -1,88 +1,53 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.Collections;
 
-public class FailureRate {
-    public int[] solution(int N, int[] stages) {
-        // N : 전체 스테이지 개수
-        // stages: 게임을 이용하는 사용자가 현재 멈춰있는 스테이지
-        // 실패율 : 스테이지에 도달했지만 클리어하지 못한 플레이어의 수 / 스테이지에 도달한 플레이어의 수
-        // 스테이지 별 실패율부터 구해야하겠네
+class Solution {
+    static class Rate{
+        int idx;	// stage number
+        double rate; 	// fail rate
 
-        double[] failureRateArray = getFailureRateArray(N, stages);
+        public Rate(int idx, double rate) {
+            this.idx = idx;
+            this.rate = rate;
+        }
+    }
 
-        Map<Integer, Double> failureMap = failureMap(failureRateArray);
+    public static int[] solution(int N, int[] stages) {
+        int[] user_cnt = new int[N + 2];	// 각 stage에 머물러있는 user 수
+        int[] user_total_cnt = new int[N + 1];	// 각 stage에 도달한 전체 user 수
 
-        int[] answer = result(failureMap);
+        for (int i = 0; i < stages.length; i++) {
+            user_cnt[stages[i]]++;
+        }
 
-        // 문제점: failureRate는 구했는데 이걸 순서로 다시 변환해주어야 한다.
-        // 어떻게 순서로 변환할까?
+        // 스테이지에 도달한 유저 수 누적(?)하여 구하기
+        // 맨 마지막 stage는 n번째 + (n+1)번째
+        user_total_cnt[N] = user_cnt[N] + user_cnt[N + 1];
+        for (int i = N-1; i >= 1; i--) {
+            user_total_cnt[i] = user_cnt[i] + user_total_cnt[i + 1];
+        }
+
+        ArrayList<Rate> arr = new ArrayList<>(); // stage 번호와 실패율을 저장
+        for (int i = 1; i <= N; i++) {
+
+            if(user_total_cnt[i]==0){ //스테이지에 도달한 유저가 없는 경우 해당 스테이지의 실패율은 0
+                arr.add(new Rate(i, 0));
+                continue;
+            }
+
+            double rate = (double) user_cnt[i] / user_total_cnt[i];
+            arr.add(new Rate(i, rate));
+        }
+
+        // fail rate가 높은 순으로 sorting
+        Collections.sort(arr, ((o1, o2) -> Double.compare(o2.rate, o1.rate)));
+
+        // sorting 된 실패율의 stage 번호 저장
+        int[] answer = new int[N];
+        for (int i=0; i<arr.size(); i++) {
+            answer[i] = arr.get(i).idx;
+        }
 
         return answer;
-    }
-
-    public int[] result(Map<Integer, Double> failureMap) {
-        List<Double> resultDouble = failureMap.values().stream()
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
-
-        //더블 배열의 값이 map의 밸류와 같으면 키를 반환하라.
-        List<Integer> resultList = new ArrayList<>();
-
-        //키를 돌면서 인덱스를 반환해야하낟.
-        for (int key : failureMap.keySet()) {
-
-        }
-
-        for (int i = 0; i < result.length; i += 1) {
-
-            // 이전과 같은 키는 배제하기
-            // 순서대로 다 돌기는 해야함.
-            // 그 자체로 정렬하는 기능은 없을까?
-            // 키 1, 2, 3, 4, 5....
-
-
-            result[i] = failureMap.keySet().stream()
-                    .filter(key -> failureMap.get(key) == resultDouble[index])
-                    .findFirst().get();
-
-        }
-        return result;
-    }
-
-    public Map<Integer, Double> failureMap(double[] failureRateArray) {
-        Map<Integer, Double> failureMap = new HashMap<>();
-
-        for (int i = 0; i < failureRateArray.length; i += 1) {
-            failureMap.put( i + 1, failureRateArray[i]);
-        }
-
-        return failureMap;
-    }
-
-    public double[] getFailureRateArray(int N, int[] stages) {
-        return IntStream.range(1, N + 1)
-                .mapToDouble(elem -> failureRate(stages, elem))
-                .toArray();
-    }
-
-    public double failureRate(int[] stages, int stage) {
-        //stage보다 크거나 같은 stages count -> 분모
-        //stage와 같은 친구 -> 분자
-
-        int divisor = Arrays.stream(stages)
-                .filter(s -> s >= stage)
-                .toArray().length;
-
-        int divider = Arrays.stream(stages)
-                .filter(s -> s == stage)
-                .toArray().length;
-
-        return (double) divider / divisor;
     }
 }
