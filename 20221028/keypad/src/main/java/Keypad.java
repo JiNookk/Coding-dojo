@@ -17,22 +17,12 @@ public class Keypad {
             number = 11;
         }
 
-        if (number % 3 == 1) {
+        if (number % 3 == 1 || leftHand.distance(number) < rightHand.distance(number)) {
             leftHand.press(number);
             return "L";
         }
 
-        if (number % 3 == 0) {
-            rightHand.press(number);
-            return "R";
-        }
-
-        if (leftHand.distance(number) < rightHand.distance(number)) {
-            leftHand.press(number);
-            return "L";
-        }
-
-        if (leftHand.distance(number) > rightHand.distance(number)) {
+        if (number % 3 == 0 || leftHand.distance(number) > rightHand.distance(number)) {
             rightHand.press(number);
             return "R";
         }
