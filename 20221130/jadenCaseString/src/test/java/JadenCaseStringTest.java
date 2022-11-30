@@ -30,25 +30,13 @@ class JadenCaseStringTest {
     }
 
     @Test
-    void firstLetterToUpperCase() {
-        String word1 = jadenCaseString.firstLetterToUpperCase("3people");
-        String word2 = jadenCaseString.firstLetterToUpperCase("unFollowed");
-        String word3 = jadenCaseString.firstLetterToUpperCase("last");
-
+    void changeWordCase() {
+        String word1 = jadenCaseString.changeWordCase("3people");
+        String word2 = jadenCaseString.changeWordCase("unFollowed");
+        String word3 = jadenCaseString.changeWordCase("last");
 
         assertEquals(word3, "Last");
-        assertEquals(word2, "UnFollowed");
-        assertEquals(word1, "3people");
-    }
-
-    @Test
-    void otherLettersToLowerCase() {
-        String word1 = jadenCaseString.otherLettersToLowerCase("Last");
-        String word2 = jadenCaseString.otherLettersToLowerCase("UnFollowed");
-        String word3 = jadenCaseString.otherLettersToLowerCase("3people");
-
-        assertEquals(word1, "Last");
         assertEquals(word2, "Unfollowed");
-        assertEquals(word3, "3people");
+        assertEquals(word1, "3people");
     }
 }
